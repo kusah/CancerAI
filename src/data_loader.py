@@ -1,32 +1,43 @@
-from pathlib import Path
 import pandas as pd
+from pathlib import Path
 from config import RAW_DATA_DIR
 
 
 class DataLoader:
     """
-    Responsible for loading datasets from the raw data directory.
+    Loads datasets from data/raw directory.
     """
 
     def __init__(self):
-        self.raw_data_dir = RAW_DATA_DIR
+        self.raw_dir = RAW_DATA_DIR
 
     def load_csv(self, filename: str) -> pd.DataFrame:
-        """
-        Load a CSV file from the raw data directory.
-        """
-        file_path = self.raw_data_dir / filename
+        file_path = self.raw_dir / filename
 
         if not file_path.exists():
-            raise FileNotFoundError(
-                f"Dataset '{filename}' not found in {self.raw_data_dir}"
-            )
+            raise FileNotFoundError(f"{filename} not found.")
 
-        df = pd.read_csv(file_path)
-        return df
+        return pd.read_csv(file_path)
 
 
 if __name__ == "__main__":
     loader = DataLoader()
 
-    print("Data Loader Ready")
+    data = loader.load_csv("data.csv")
+    labels = loader.load_csv("labels.csv") 
+
+    print("=" * 50)
+    print("DATASET LOADED SUCCESSFULLY")
+    print("=" * 50)
+
+    print("\nData Shape:")
+    print(data.shape)
+
+    print("\nLabels Shape:")
+    print(labels.shape)
+
+    print("\nFirst 5 Rows of Data:")
+    print(data.head())
+
+    print("\nFirst 5 Labels:")
+    print(labels.head())

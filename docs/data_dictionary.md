@@ -1,25 +1,58 @@
 # CancerAI Data Dictionary
 
-## Dataset
+## Dataset Overview
 
-Source: TCGA (via UCSC Xena)
+This project uses a TCGA-derived RNA-Seq gene expression dataset for multi-class cancer classification.
 
-## Cancer Types
+---
 
-- BRCA - Breast Cancer
-- LUAD - Lung Adenocarcinoma
-- COAD - Colon Adenocarcinoma
-- KIRC - Kidney Renal Clear Cell Carcinoma
-- LIHC - Liver Hepatocellular Carcinoma
+## Feature Dataset (`data.csv`)
 
-## Data Type
+| Column | Description |
+|---------|-------------|
+| Unnamed: 0 | Sample Identifier |
+| gene_0 – gene_20530 | RNA-Seq gene expression values |
 
-RNA-Seq Gene Expression
+Total Samples: **801**
 
-## Prediction Target
+Total Gene Features: **20,531**
 
-Cancer Type
+---
 
-## Notes
+## Label Dataset (`label.csv`)
 
-Will be updated after dataset download.
+| Column | Description |
+|---------|-------------|
+| Unnamed: 0 | Sample Identifier |
+| Class | Cancer Type |
+
+---
+
+## Cancer Classes
+
+| Label | Cancer |
+|--------|---------|
+| BRCA | Breast Cancer |
+| COAD | Colon Adenocarcinoma |
+| KIRC | Kidney Renal Clear Cell Carcinoma |
+| LUAD | Lung Adenocarcinoma |
+| PRAD | Prostate Adenocarcinoma |
+
+---
+
+## Data Quality
+
+- Missing Values: 0
+- Duplicate Samples: 0
+- Gene Features: Numeric (`float64`)
+- Sample ID: String
+- Target Variable: Categorical
+
+---
+
+## Planned Preprocessing
+
+- Rename `Unnamed: 0` to `Sample_ID`
+- Merge `data.csv` and `label.csv`
+- Encode cancer labels
+- Save processed dataset
