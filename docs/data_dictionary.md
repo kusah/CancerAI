@@ -1,25 +1,25 @@
-# CancerAI Data Dictionary
+# Data Dictionary
 
-## Dataset Overview
+## Dataset
 
-This project uses a TCGA-derived RNA-Seq gene expression dataset for multi-class cancer classification.
+Gene Expression Cancer RNA-Seq Dataset
 
 ---
 
-## Feature Dataset (`data.csv`)
+## Feature Dataset (data.csv)
 
 | Column | Description |
 |---------|-------------|
 | Unnamed: 0 | Sample Identifier |
-| gene_0 – gene_20530 | RNA-Seq gene expression values |
+| gene_0 - gene_20530 | RNA-Seq Gene Expression Values |
 
-Total Samples: **801**
+Total Samples: 801
 
-Total Gene Features: **20,531**
+Total Features: 20,531
 
 ---
 
-## Label Dataset (`label.csv`)
+## Label Dataset (labels.csv)
 
 | Column | Description |
 |---------|-------------|
@@ -28,31 +28,34 @@ Total Gene Features: **20,531**
 
 ---
 
-## Cancer Classes
+## Processed Dataset
 
-| Label | Cancer |
-|--------|---------|
-| BRCA | Breast Cancer |
-| COAD | Colon Adenocarcinoma |
-| KIRC | Kidney Renal Clear Cell Carcinoma |
-| LUAD | Lung Adenocarcinoma |
-| PRAD | Prostate Adenocarcinoma |
+| Column | Description |
+|---------|-------------|
+| Sample_ID | Unique Sample Identifier |
+| gene_0 - gene_20530 | Gene Expression Values |
+| Cancer_Type | Encoded Target Label |
+
+---
+
+## Cancer Label Mapping
+
+| Label | Encoded Value |
+|--------|--------------:|
+| BRCA | 0 |
+| COAD | 1 |
+| KIRC | 2 |
+| LUAD | 3 |
+| PRAD | 4 |
 
 ---
 
 ## Data Quality
 
-- Missing Values: 0
-- Duplicate Samples: 0
-- Gene Features: Numeric (`float64`)
-- Sample ID: String
-- Target Variable: Categorical
+Missing Values: 0
 
----
+Duplicate Samples: 0
 
-## Planned Preprocessing
+Gene Features: float64
 
-- Rename `Unnamed: 0` to `Sample_ID`
-- Merge `data.csv` and `label.csv`
-- Encode cancer labels
-- Save processed dataset
+Target Variable: Encoded Integer

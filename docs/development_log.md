@@ -1,39 +1,42 @@
 # CancerAI Development Log
 
-## Project
-CancerAI – Explainable Multi-Cancer Classification using RNA-Seq Gene Expression
-
----
-
-# Sprint 1 – Project Foundation
+## Sprint 1
 
 ### Completed
 
-- Created project structure
-- Configured Python virtual environment
-- Set up GitHub repository
-- Implemented configuration module (`config.py`)
-- Implemented reusable data loader (`data_loader.py`)
-- Created dataset validator (`validator.py`)
-- Created dataset statistics module (`statistics.py`)
-- Selected TCGA-derived RNA-Seq dataset
-- Downloaded dataset (`data.csv`, `label.csv`)
-- Loaded dataset successfully
-- Performed initial exploratory data analysis
-- Generated cancer type distribution visualization
+- Project structure created
+- Virtual environment configured
+- GitHub repository initialized
+- Configuration module created
+- Data loader implemented
+- Dataset downloaded
+- Initial EDA completed
+- Dataset statistics generated
+- Cancer distribution visualization created
 
-### Key Findings
+---
 
-- Samples: 801
-- Gene Features: 20,531
-- Cancer Classes: 5
-- Missing Values: 0
-- Duplicate Samples: 0
+## Sprint 2
 
-### Next Sprint
+### Completed
 
-- Preprocess dataset
-- Merge feature and label datasets
-- Rename columns
-- Encode target labels
-- Save processed dataset
+- Renamed dataset columns
+- Merged feature and label datasets
+- Encoded cancer labels using LabelEncoder
+- Saved processed dataset
+- Saved label encoder for deployment
+
+---
+
+## Current Progress
+
+- Dataset Ready
+- EDA Completed
+- Preprocessing Completed
+
+---
+
+## Next Sprint
+
+- Train/Test Split
+- Baseline Machine Learning Models

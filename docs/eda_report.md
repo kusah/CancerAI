@@ -2,9 +2,11 @@
 
 ## Dataset Summary
 
-- Samples: 801
-- Gene Features: 20,531
-- Cancer Classes: 5
+| Metric | Value |
+|---------|-------|
+| Samples | 801 |
+| Gene Features | 20531 |
+| Cancer Classes | 5 |
 
 ---
 
@@ -23,7 +25,7 @@
 ## Cancer Distribution
 
 | Cancer | Samples |
-|---------|---------:|
+|---------|---------|
 | BRCA | 300 |
 | KIRC | 146 |
 | LUAD | 141 |
@@ -32,11 +34,16 @@
 
 ---
 
-## Initial Observations
+## Initial Findings
 
-- Dataset is clean.
-- No missing values.
-- No duplicate samples.
-- Slight class imbalance.
-- Gene expression values are numeric.
-- Suitable for machine learning.
+- Dataset contains no missing values.
+- Dataset contains no duplicate samples.
+- Gene expression features are numeric.
+- Slight class imbalance is present.
+- Dataset is suitable for machine learning.
+
+---
+
+## Visualizations
+
+- Cancer Type Distribution
