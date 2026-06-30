@@ -24,4 +24,11 @@
 
 ## Final Model Selection
 
-(To be updated after training)
+| Model               | Accuracy   | Status      |
+| ------------------- | ---------- | ----------- |
+| Logistic Regression | **98.14%** | ✅ Completed |
+| Decision Tree       | Pending    | ⏳           |
+| Random Forest       | Pending    | ⏳           |
+| KNN                 | Pending    | ⏳           |
+| SVM                 | Pending    | ⏳           |
+| XGBoost             | Pending    | ⏳           |

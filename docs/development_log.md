@@ -36,7 +36,23 @@
 
 ---
 
-## Next Sprint
+## Sprint 3 – Baseline Machine Learning
 
-- Train/Test Split
-- Baseline Machine Learning Models
+### Completed
+
+- Loaded processed dataset
+- Performed train-test split using stratified sampling
+- Standardized gene expression features
+- Trained Logistic Regression model
+- Evaluated model performance
+
+### Results
+
+- Accuracy: 98.14%
+- Macro F1-score: 0.97
+- Weighted F1-score: 0.98
+
+### Observation
+
+The Logistic Regression model achieved excellent performance with only a few misclassifications between COAD and LUAD.
+
