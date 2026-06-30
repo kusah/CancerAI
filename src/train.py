@@ -4,33 +4,33 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (accuracy_score,classification_report,confusion_matrix)
 import joblib
-from config import MODEL_DIR
+from config import MODEL_DIR, FIGURES_DIR, RESULTS_DIR
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.metrics import ConfusionMatrixDisplay
 
-
-def main():
-
+def load_dataset():
     loader = DataLoader()
+
+    encoder = joblib.load(
+        MODEL_DIR / "label_encoder.pkl"
+    )
 
     df = loader.load_csv(
         "cancer_dataset.csv",
         folder="processed"
     )
 
-    print("=" * 50)
-    print("DATASET LOADED")
-    print("=" * 50)
+    return df, encoder
 
-    print(df.shape)
-
-    # Features
+def prepare_data(df):
     X = df.drop(columns=["Sample_ID", "Cancer_Type"])
 
-    # Target
     y = df["Cancer_Type"]
 
-    # print("\nFeature Shape:", X.shape)
-    # print("Target Shape:", y.shape)
+    return X, y
 
+def split_data(X, y):
     # Split dataset
     X_train, X_test, y_train, y_test = train_test_split(
         X,
@@ -44,8 +44,9 @@ def main():
     print(f"Training Samples : {X_train.shape}")
     print(f"Testing Samples  : {X_test.shape}")
 
+    return X_train, X_test, y_train, y_test
 
-    # Feature Scaling
+def scale_data(X_train,X_test):
     scaler=StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
@@ -55,52 +56,172 @@ def main():
     print(f"Training Shape : {X_train_scaled.shape}")
     print(f"Testing Shape  : {X_test_scaled.shape}")
 
-
-    # Model Training
-
-    model = LogisticRegression(max_iter=1000,random_state=42)
-    model.fit(X_train_scaled, y_train)
-    print("\nLogistic Regression Model Trained Successfully!")
+    return X_train_scaled, X_test_scaled, scaler
 
 
-    # Prediction
+def train_and_evaluate(model,model_name,X_train,X_test,y_train,y_test):
+    model.fit(X_train, y_train)
 
-    y_pred = model.predict(X_test_scaled)
+    print(f"\n{model_name} Model Trained Successfully!")
 
-    print("\nPredictions Generated!")
-
-    # Evaluation
+    y_pred = model.predict(X_test)
 
     accuracy = accuracy_score(y_test, y_pred)
 
-    print("\n" + "=" * 50)
-    print("LOGISTIC REGRESSION RESULTS")
-    print("=" * 50)
-
     print(f"\nAccuracy : {accuracy:.4f}")
 
-    print("\nClassification Report")
+    return y_pred, accuracy
 
-    print(classification_report(y_test, y_pred))
+def generate_reports(
+    y_test,
+    y_pred,
+    accuracy,
+    encoder,
+    model_name
+):
+    report = classification_report(
+        y_test,
+        y_pred,
+        target_names=encoder.classes_,
+        output_dict=True
+    )
 
-    print("\nConfusion Matrix")
+    report_df = pd.DataFrame(report).transpose()
 
-    print(confusion_matrix(y_test, y_pred))
+    report_df.to_csv(
+        RESULTS_DIR / f"{model_name}_classification_report.csv"
+    )   
+
+    print("Classification report saved.")
+
+    
+    cm = confusion_matrix(y_test, y_pred)
+
+    cm_df = pd.DataFrame(cm,index=encoder.classes_,columns=encoder.classes_)
+
+    cm_df.to_csv(
+        RESULTS_DIR / f"{model_name}_confusion_matrix.csv"
+    )
+
+    print("Confusion matrix saved.")
+    
+
+    metrics = pd.DataFrame({
+        "Metric": [
+            "Accuracy",
+            "Macro Precision",
+            "Macro Recall",
+            "Macro F1"
+        ],
+        "Value": [
+            accuracy,
+            report["macro avg"]["precision"],
+            report["macro avg"]["recall"],
+            report["macro avg"]["f1-score"]
+        ]
+    })
+
+    metrics.to_csv(RESULTS_DIR /  f"{model_name}_metrics.csv",index=False)
+
+    print("Metrics saved.")
+      # ==========================
+    # Save Confusion Matrix Figure
+    # ==========================
+
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm,display_labels=encoder.classes_)
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+    disp.plot(
+        cmap="Blues",
+        ax=ax,
+        colorbar=False
+    )
+    plt.xticks(fontsize=11)
+
+    plt.yticks(fontsize=11)
+
+    plt.title(
+        f"{model_name.replace('_', ' ').title()}\nAccuracy = {accuracy:.2%}",
+        fontsize=12,
+        fontweight="bold"
+    )
+
+    plt.tight_layout()
+
+    plt.savefig(
+        FIGURES_DIR / f"{model_name}_confusion_matrix.png",
+        dpi=600,
+        bbox_inches="tight"
+    )
+
+    plt.close()
+
+    print("Confusion matrix figure saved.")
 
 
+def save_model(
+    model,
+    scaler,
+    model_name
+):
+    joblib.dump(
+        model,
+        MODEL_DIR / f"{model_name}_v1.pkl"
+    )
+
+    joblib.dump(
+        scaler,
+        MODEL_DIR / "scaler_v1.pkl"
+    )
+    print(f"{model_name} model saved successfully.")
+    print("Scaler saved successfully.")
+
+def main():
+
+    df, encoder = load_dataset()
+
+    X, y = prepare_data(df)
+
+    X_train, X_test, y_train, y_test = split_data(X, y)
+    
+
+    # Feature Scaling
+    X_train_scaled, X_test_scaled, scaler = scale_data(X_train,X_test)
+
+
+    # Model Training
+
+    model = LogisticRegression(
+        max_iter=1000,
+        random_state=42
+    )
+
+    y_pred, accuracy = train_and_evaluate(
+        model=model,
+        model_name="Logistic Regression",
+        X_train=X_train_scaled,
+        X_test=X_test_scaled,
+        y_train=y_train,
+        y_test=y_test
+    )
+
+    generate_reports(
+        y_test,
+        y_pred,
+        accuracy,
+        encoder,
+        "logistic_regression"
+    )
+
+    
 
     # Save Model
 
-    MODEL_DIR.mkdir(parents=True, exist_ok=True)
-
-    joblib.dump(model, MODEL_DIR / "logistic_regression_v1.pkl")
-    joblib.dump(scaler, MODEL_DIR / "scaler_v1.pkl")
-
-    print("\nModel saved successfully!")
-    print("Scaler saved successfully!")
-
-
-
+    save_model(
+        model,
+        scaler,
+        "logistic_regression"
+    )
 
 
 if __name__ == "__main__":

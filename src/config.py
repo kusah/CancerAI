@@ -11,7 +11,8 @@ PROCESSED_DATA_DIR = BASE_DIR / "data" / "processed"
 # Other directories
 MODEL_DIR = BASE_DIR / "models"
 REPORT_DIR = BASE_DIR / "reports"
-
+FIGURES_DIR = REPORT_DIR / "figures"
+RESULTS_DIR = REPORT_DIR / "results"
 # Create directories automatically
 for directory in [
     RAW_DATA_DIR,
@@ -19,5 +20,8 @@ for directory in [
     PROCESSED_DATA_DIR,
     MODEL_DIR,
     REPORT_DIR,
+    FIGURES_DIR,
+    RESULTS_DIR,
 ]:
     directory.mkdir(parents=True, exist_ok=True)
+
