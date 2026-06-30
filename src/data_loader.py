@@ -1,43 +1,50 @@
 import pandas as pd
-from pathlib import Path
-from config import RAW_DATA_DIR
+from config import RAW_DATA_DIR, PROCESSED_DATA_DIR
 
 
 class DataLoader:
     """
-    Loads datasets from data/raw directory.
+    Utility class for loading datasets from the project.
     """
 
     def __init__(self):
-        self.raw_dir = RAW_DATA_DIR
+        self.directories = {
+            "raw": RAW_DATA_DIR,
+            "processed": PROCESSED_DATA_DIR
+        }
 
-    def load_csv(self, filename: str) -> pd.DataFrame:
-        file_path = self.raw_dir / filename
+    def load_csv(self, filename: str, folder: str = "raw") -> pd.DataFrame:
+        """
+        Load a CSV file from the specified data folder.
+
+        Parameters:
+            filename (str): Name of the CSV file.
+            folder (str): "raw" or "processed".
+
+        Returns:
+            pd.DataFrame
+        """
+
+        if folder not in self.directories:
+            raise ValueError(f"Invalid folder: {folder}")
+
+        file_path = self.directories[folder] / filename
 
         if not file_path.exists():
-            raise FileNotFoundError(f"{filename} not found.")
+            raise FileNotFoundError(f"{file_path} not found.")
 
         return pd.read_csv(file_path)
-
-
+    
 if __name__ == "__main__":
+
     loader = DataLoader()
 
-    data = loader.load_csv("data.csv")
-    labels = loader.load_csv("labels.csv") 
+    raw = loader.load_csv("data.csv")
 
-    print("=" * 50)
-    print("DATASET LOADED SUCCESSFULLY")
-    print("=" * 50)
+    processed = loader.load_csv(
+        "cancer_dataset.csv",
+        folder="processed"
+    )
 
-    print("\nData Shape:")
-    print(data.shape)
-
-    print("\nLabels Shape:")
-    print(labels.shape)
-
-    print("\nFirst 5 Rows of Data:")
-    print(data.head())
-
-    print("\nFirst 5 Labels:")
-    print(labels.head())
+    print(raw.shape)
+    print(processed.shape)
