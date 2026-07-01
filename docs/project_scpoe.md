@@ -57,10 +57,11 @@ Develop an end-to-end machine learning platform that predicts cancer types using
 - Decision Tree
 - Automated Report Generation
 - Model Saving
+- Random Forest
 
 ## In Progress
 
-- Random Forest
+
 - KNN
 - SVM
 - XGBoost

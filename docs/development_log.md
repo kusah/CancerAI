@@ -87,3 +87,32 @@ The Logistic Regression model achieved excellent performance with only a few mis
 ## Outcome
 
 The reusable training pipeline now supports multiple machine learning models with minimal code changes.
+
+# Sprint 5 – Random Forest Benchmarking
+
+## Date
+(Enter today's date)
+
+## Completed
+
+- Added Random Forest classifier to the reusable training pipeline.
+- Implemented automatic model benchmarking.
+- Added training time tracking.
+- Generated Random Forest evaluation reports.
+- Generated Random Forest confusion matrix (CSV & PNG).
+- Saved Random Forest model.
+- Created and updated `model_comparison.csv`.
+
+## Results
+
+| Model | Accuracy |
+|--------|----------|
+| Logistic Regression | 98.14% |
+| Decision Tree | 95.65% |
+| Random Forest | 98.76% |
+
+## Observations
+
+- Random Forest achieved the highest accuracy so far.
+- Decision Tree performance improved when using an ensemble approach.
+- The benchmarking framework now updates automatically for every trained model.

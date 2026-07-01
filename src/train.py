@@ -9,6 +9,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import ConfusionMatrixDisplay
 from sklearn.tree import DecisionTreeClassifier
+import time
+
+from report_utils import update_model_comparison
+from sklearn.ensemble import RandomForestClassifier
+
 
 def load_dataset():
     loader = DataLoader()
@@ -61,8 +66,9 @@ def scale_data(X_train,X_test):
 
 
 def train_and_evaluate(model,model_name,X_train,X_test,y_train,y_test):
+    start_time = time.time()
     model.fit(X_train, y_train)
-
+    training_time = time.time() - start_time
     print(f"\n{model_name} Model Trained Successfully!")
 
     y_pred = model.predict(X_test)
@@ -71,14 +77,17 @@ def train_and_evaluate(model,model_name,X_train,X_test,y_train,y_test):
 
     print(f"\nAccuracy : {accuracy:.4f}")
 
-    return y_pred, accuracy
+    
+
+    return y_pred, accuracy, training_time
 
 def generate_reports(
     y_test,
     y_pred,
     accuracy,
     encoder,
-    model_name
+    model_name,
+    training_time
 ):
     report = classification_report(
         y_test,
@@ -125,6 +134,13 @@ def generate_reports(
     metrics.to_csv(RESULTS_DIR /  f"{model_name}_metrics.csv",index=False)
 
     print("Metrics saved.")
+
+    update_model_comparison(
+        model_name,
+        accuracy,
+        report,
+        training_time
+    )
       # ==========================
     # Save Confusion Matrix Figure
     # ==========================
@@ -159,6 +175,8 @@ def generate_reports(
 
     print("Confusion matrix figure saved.")
 
+    
+
 
 def save_model(
     model,
@@ -185,6 +203,10 @@ MODELS = {
 
     "decision_tree": DecisionTreeClassifier(
         random_state=42
+    ),
+    "random_forest": RandomForestClassifier(
+        n_estimators=100,
+        random_state=42
     )
 }
 
@@ -208,7 +230,7 @@ def main():
         
         print(f"\nTraining {model_name.replace('_', ' ').title()} Model...")
 
-        y_pred, accuracy = train_and_evaluate(
+        y_pred, accuracy, training_time = train_and_evaluate(
             model,
             model_name,
             X_train_scaled,
@@ -222,7 +244,8 @@ def main():
             y_pred,
             accuracy,
             encoder,
-            model_name
+            model_name,
+            training_time
         )
 
         save_model(

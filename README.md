@@ -4,12 +4,16 @@ An Explainable Bioinformatics Platform for Multi-Cancer Classification using RNA
 
 ## Features
 
-- Multi-cancer prediction
-- Explainable AI using SHAP
-- Gene Explorer
-- Interactive Analytics Dashboard
-- PDF Report Generation
-- Streamlit Web Application
+- Data preprocessing pipeline
+- Automatic feature scaling
+- Multi-model benchmarking
+- Logistic Regression
+- Decision Tree
+- Random Forest
+- Automatic evaluation reports
+- Automatic confusion matrix generation
+- Automatic model comparison
+- Automatic model saving
 
 ## Supported Cancer Types
 
@@ -32,4 +36,17 @@ An Explainable Bioinformatics Platform for Multi-Cancer Classification using RNA
 
 ## Project Status
 
-🚧 Under Development
+## Current Progress
+
+- [x] Dataset Preparation
+- [x] Exploratory Data Analysis
+- [x] Data Preprocessing
+- [x] Logistic Regression
+- [x] Decision Tree
+- [x] Random Forest
+- [ ] KNN
+- [ ] SVM
+- [ ] XGBoost
+- [ ] Hyperparameter Tuning
+- [ ] SHAP Explainability
+- [ ] Streamlit Dashboard
