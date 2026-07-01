@@ -56,3 +56,34 @@
 
 The Logistic Regression model achieved excellent performance with only a few misclassifications between COAD and LUAD.
 
+# Sprint 4 – Model Benchmarking Framework
+
+## Date
+1/7/2026
+
+## Completed
+
+- Refactored `train.py` into reusable functions.
+- Created modular ML training pipeline.
+- Added `load_dataset()`.
+- Added `prepare_data()`.
+- Added `split_data()`.
+- Added `scale_data()`.
+- Added `train_and_evaluate()`.
+- Added `generate_reports()`.
+- Added `save_model()`.
+- Added Decision Tree classifier.
+- Generated evaluation reports automatically.
+- Saved Decision Tree model.
+- Generated Decision Tree confusion matrix.
+
+## Results
+
+| Model | Accuracy |
+|--------|----------|
+| Logistic Regression | 98.14% |
+| Decision Tree | 95.65% |
+
+## Outcome
+
+The reusable training pipeline now supports multiple machine learning models with minimal code changes.

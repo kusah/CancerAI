@@ -46,3 +46,28 @@ Develop an end-to-end machine learning platform that predicts cancer types using
 - Explainable AI (SHAP)
 - Interactive Streamlit Web Application
 - Prediction Report Generation
+
+## Completed Modules
+
+- Data Loading
+- Data Validation
+- Data Preprocessing
+- Feature Scaling
+- Logistic Regression
+- Decision Tree
+- Automated Report Generation
+- Model Saving
+
+## In Progress
+
+- Random Forest
+- KNN
+- SVM
+- XGBoost
+
+## Future Work
+
+- Hyperparameter Tuning
+- SHAP Explainability
+- Streamlit Dashboard
+- Deployment

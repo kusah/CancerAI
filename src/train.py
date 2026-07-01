@@ -8,6 +8,7 @@ from config import MODEL_DIR, FIGURES_DIR, RESULTS_DIR
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import ConfusionMatrixDisplay
+from sklearn.tree import DecisionTreeClassifier
 
 def load_dataset():
     loader = DataLoader()
@@ -176,7 +177,19 @@ def save_model(
     print(f"{model_name} model saved successfully.")
     print("Scaler saved successfully.")
 
+MODELS = {
+    "logistic_regression": LogisticRegression(
+        max_iter=1000,
+        random_state=42
+    ),
+
+    "decision_tree": DecisionTreeClassifier(
+        random_state=42
+    )
+}
+
 def main():
+
 
     df, encoder = load_dataset()
 
@@ -191,38 +204,32 @@ def main():
 
     # Model Training
 
-    model = LogisticRegression(
-        max_iter=1000,
-        random_state=42
-    )
+    for model_name, model in MODELS.items():
+        
+        print(f"\nTraining {model_name.replace('_', ' ').title()} Model...")
 
-    y_pred, accuracy = train_and_evaluate(
-        model=model,
-        model_name="Logistic Regression",
-        X_train=X_train_scaled,
-        X_test=X_test_scaled,
-        y_train=y_train,
-        y_test=y_test
-    )
+        y_pred, accuracy = train_and_evaluate(
+            model,
+            model_name,
+            X_train_scaled,
+            X_test_scaled,
+            y_train,
+            y_test
+        )
 
-    generate_reports(
-        y_test,
-        y_pred,
-        accuracy,
-        encoder,
-        "logistic_regression"
-    )
+        generate_reports(
+            y_test,
+            y_pred,
+            accuracy,
+            encoder,
+            model_name
+        )
 
-    
-
-    # Save Model
-
-    save_model(
-        model,
-        scaler,
-        "logistic_regression"
-    )
-
+        save_model(
+            model,
+            scaler,
+            model_name
+        )
 
 if __name__ == "__main__":
     main()
