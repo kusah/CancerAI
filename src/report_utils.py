@@ -8,8 +8,13 @@ def update_model_comparison(
     report,
     training_time
 ):
+    display_name = model_name.replace("_", " ").title()
+
+    if model_name == "knn":
+        display_name = "KNN"
+
     new_row = pd.DataFrame([{
-        "Model": model_name.replace("_", " ").title(),
+        "Model": display_name,
         "Accuracy": round(accuracy * 100, 2),
         "Macro Precision": round(report["macro avg"]["precision"], 4),
         "Macro Recall": round(report["macro avg"]["recall"], 4),
@@ -25,7 +30,7 @@ def update_model_comparison(
         old_df = pd.read_csv(comparison_file)
 
         old_df = old_df[
-            old_df["Model"] != model_name.replace("_", " ").title()
+            old_df["Model"] != display_name
         ]
 
         final_df = pd.concat(
@@ -36,6 +41,11 @@ def update_model_comparison(
     else:
 
         final_df = new_row
+
+    final_df = final_df.sort_values(
+        by="Accuracy",
+        ascending=False
+    ).reset_index(drop=True)
 
     final_df.to_csv(
         comparison_file,

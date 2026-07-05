@@ -13,6 +13,9 @@ import time
 
 from report_utils import update_model_comparison
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from xgboost import XGBClassifier
 
 
 def load_dataset():
@@ -207,6 +210,20 @@ MODELS = {
     "random_forest": RandomForestClassifier(
         n_estimators=100,
         random_state=42
+    ),
+    "knn": KNeighborsClassifier(
+        n_neighbors=5
+    ),
+    "svm": SVC(
+        kernel='rbf',
+        random_state=42
+    ),
+    " xgboost": XGBClassifier(
+        n_estimators=100,
+        learning_rate=0.1,
+        max_depth=6,
+        random_state=42,
+        eval_metric="mlogloss"
     )
 }
 
