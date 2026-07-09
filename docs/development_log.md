@@ -116,3 +116,32 @@ The reusable training pipeline now supports multiple machine learning models wit
 - Random Forest achieved the highest accuracy so far.
 - Decision Tree performance improved when using an ensemble approach.
 - The benchmarking framework now updates automatically for every trained model.
+
+
+## Sprint 6 – Hyperparameter Tuning
+
+### Completed
+- Created reusable tuning pipeline (`tune.py`)
+- Integrated GridSearchCV with 5-fold cross-validation
+- Tuned Random Forest hyperparameters
+- Saved tuned model and tuning results
+
+### Observation
+- Default Random Forest hyperparameters achieved the best cross-validation performance (99.69%), indicating that the baseline configuration was already optimal among the tested combinations.
+
+## Sprint 7 – XGBoost Hyperparameter Tuning
+
+### Completed
+- Extended reusable tuning pipeline for XGBoost.
+- Performed GridSearchCV with 5-fold cross-validation.
+- Saved tuned model and tuning reports.
+- Compared tuned XGBoost with tuned Random Forest.
+
+### Best Parameters
+- learning_rate = 0.1
+- max_depth = 3
+- n_estimators = 100
+- subsample = 0.8
+
+### Best CV Accuracy
+99.06%

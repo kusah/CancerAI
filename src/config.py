@@ -14,6 +14,7 @@ REPORT_DIR = BASE_DIR / "reports"
 FIGURES_DIR = REPORT_DIR / "figures"
 RESULTS_DIR = REPORT_DIR / "results"
 TUNING_DIR = REPORT_DIR / "tuning"
+EXPLAINABILITY_DIR = REPORT_DIR / "explainability"
 # Create directories automatically
 for directory in [
     RAW_DATA_DIR,
@@ -24,6 +25,7 @@ for directory in [
     FIGURES_DIR,
     RESULTS_DIR,
     TUNING_DIR,
+    EXPLAINABILITY_DIR,
 ]:
     directory.mkdir(parents=True, exist_ok=True)
 
