@@ -65,6 +65,18 @@ def main():
     plt.close()
 
     print("SHAP Summary Plot saved successfully.")
+#     SHAP Summary Plot 
+
+# This is exactly what we want.
+
+# It tells us:
+
+# Top 20 most influential genes for Class 0.
+# Red = high gene expression.
+# Blue = low gene expression.
+# Points farther from zero have a stronger impact on the prediction.
+
+# This is a standard explainability visualization used in many ML projects.
 
     # SHAP Feature Importance Bar Plot
 
@@ -77,6 +89,8 @@ def main():
     plt.close()
 
     print("SHAP Bar Plot saved successfully.")
+
+    
 
 if __name__ == "__main__":
     main()
