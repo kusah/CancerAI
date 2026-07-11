@@ -11,7 +11,14 @@ from train import (
 )
 
 from config import MODEL_DIR,EXPLAINABILITY_DIR
-
+CLASS_NAMES = {
+    0: "BRCA",
+    1: "COAD",
+    2: "KIRC",
+    3: "LUAD",
+    4: "PRAD"
+}
+import numpy as np
 
 
 def main():
@@ -48,6 +55,11 @@ def main():
     print("SHAP values generated successfully.")
     print(type(shap_values))
     print(shap_values.shape)
+
+    class_index = 0
+
+    class_name = CLASS_NAMES[class_index]
+
     # SHAP Summary Plot (Class 0)
 
     plt.figure(figsize=(10, 8))
@@ -60,7 +72,7 @@ def main():
 
     plt.tight_layout()
 
-    plt.savefig(EXPLAINABILITY_DIR / "shap_summary_class0.png",dpi=600,bbox_inches="tight")
+    plt.savefig(EXPLAINABILITY_DIR / f"shap_summary_{class_name}.png", dpi=600, bbox_inches="tight")
 
     plt.close()
 
@@ -84,11 +96,37 @@ def main():
 
     shap.plots.bar(shap.Explanation(values=shap_values[:, :, 0],data=X_test.values,feature_names=X_test.columns),show=False)
 
-    plt.savefig(EXPLAINABILITY_DIR / "shap_bar_class0.png",dpi=600,bbox_inches="tight")
+    plt.savefig(EXPLAINABILITY_DIR / f"shap_bar_{class_name}.png", dpi=600, bbox_inches="tight")
 
     plt.close()
 
     print("SHAP Bar Plot saved successfully.")
+
+
+    
+    importance = np.abs(
+        shap_values[:, :, class_index]
+    ).mean(axis=0)
+
+    top_genes = (
+        pd.DataFrame({
+            "Gene": X.columns,
+            "Importance": importance
+        })
+        .sort_values(
+            by="Importance",
+            ascending=False
+        )
+        .head(20)
+    )
+
+    top_genes.to_csv(
+        EXPLAINABILITY_DIR /
+        f"top_genes_{class_name}.csv",
+        index=False
+    )
+
+    print("Top important genes saved successfully.")
 
     
 
