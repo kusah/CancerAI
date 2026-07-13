@@ -63,7 +63,11 @@ if uploaded_file is not None:
 
     st.subheader("Dataset Preview")
 
-    st.dataframe(df.head())
+    st.dataframe(
+        df.head(),
+        width="stretch",
+        height=250
+    )
 
     col1, col2 = st.columns(2)
 
@@ -112,4 +116,85 @@ if uploaded_file is not None:
 
         if st.button("🚀 Predict"):
 
-            st.success("Prediction Started")
+            with st.spinner("🧬 Analyzing gene expression..."):
+
+                X = df.copy()
+
+                if "Sample_ID" in X.columns:
+                    X = X.drop(columns=["Sample_ID"])
+
+                if "Cancer_Type" in X.columns:
+                    X = X.drop(columns=["Cancer_Type"])
+
+                X_scaled = scaler.transform(X)
+
+                predictions = model.predict(X_scaled)
+
+                probabilities = model.predict_proba(X_scaled)
+
+                predicted_labels = encoder.inverse_transform(
+                    predictions
+                )
+
+
+
+                results = pd.DataFrame({
+                    "Sample_ID": df["Sample_ID"],
+                    "Predicted_Cancer": predicted_labels,
+                    "Confidence (%)": (
+                        probabilities.max(axis=1) * 100
+                    ).round(2)
+                })
+
+                st.balloons()
+
+                st.success(
+                    "🎉 Prediction Completed Successfully!"
+                )
+
+                st.subheader("📊 Prediction Summary")
+
+                col1, col2, col3 = st.columns(3)
+
+                with col1:
+                    st.metric(
+                    "Samples Predicted",
+                    len(results)
+                )
+
+                with col2:
+                    st.metric(
+                        "Cancer Types Found",
+                        results["Predicted_Cancer"].nunique()
+                    )
+
+                with col3:
+                    st.metric(
+                        "Average Confidence",
+                        f"{results['Confidence (%)'].mean():.2f}%"
+                )
+
+
+                st.subheader("Prediction Results")
+
+                st.dataframe(
+                    results,
+                    width="stretch",
+                    height=350
+                )
+
+                distribution = (
+                    results["Predicted_Cancer"]
+                    .value_counts()
+                )
+
+                st.subheader("📈 Predicted Cancer Distribution")
+
+                st.bar_chart(distribution)
+
+                st.download_button(
+                    label="📥 Download Predictions",
+                    data=results.to_csv(index=False),
+                    file_name="predictions.csv",
+                    mime="text/csv"
+                )
