@@ -23,7 +23,16 @@ def load_artifacts():
         MODEL_DIR / "label_encoder.pkl"
     )
 
-    return model, scaler, encoder
+    feature_names = joblib.load(
+        MODEL_DIR / "feature_names.pkl"
+    )
+
+    return (
+        model,
+        scaler,
+        encoder,
+        feature_names
+    )
 
 def prepare_prediction_data():
 
@@ -63,7 +72,7 @@ def predict_sample(
 
 def main():
 
-    model, scaler, encoder = load_artifacts()
+    model, scaler, encoder, feature_names = load_artifacts()
 
     X_test, X_test_scaled, y_test = prepare_prediction_data()
 

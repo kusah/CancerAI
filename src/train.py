@@ -234,6 +234,13 @@ def main():
 
     X, y = prepare_data(df)
 
+    joblib.dump(
+        X.columns.tolist(),
+        MODEL_DIR / "feature_names.pkl"
+    )
+
+    print("Feature names saved successfully.")
+
     X_train, X_test, y_train, y_test = split_data(X, y)
     
 
