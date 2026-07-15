@@ -217,3 +217,10 @@ st.dataframe(
     rf_grid.head(10),
     width="stretch"
 )
+
+
+st.divider()
+
+st.caption(
+    "CancerAI © 2026 | Developed by Kunal Sah"
+)

@@ -8,7 +8,13 @@ st.set_page_config(
     page_icon="🧬",
     layout="wide"
 )
+st.sidebar.image("assets/logo.png", width=120)
 
+st.sidebar.title("CancerAI")
+
+st.sidebar.caption(
+    "AI-Powered Cancer Classification"
+)
 # -----------------------------
 # Sidebar
 # -----------------------------
@@ -198,4 +204,10 @@ Computer Science with Bioinformatics • VIT
 </center>
 """,
 unsafe_allow_html=True
+)
+
+st.divider()
+
+st.caption(
+    "CancerAI © 2026 | Developed by Kunal Sah"
 )

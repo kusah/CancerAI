@@ -198,3 +198,9 @@ if uploaded_file is not None:
                     file_name="predictions.csv",
                     mime="text/csv"
                 )
+
+st.divider()
+
+st.caption(
+    "CancerAI © 2026 | Developed by Kunal Sah"
+)
